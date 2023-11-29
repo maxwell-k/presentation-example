@@ -5,9 +5,22 @@ from shutil import rmtree
 
 import nox
 
-VIRTUAL_ENVIRONMENT = ".venv"
-PYTHON = Path(VIRTUAL_ENVIRONMENT).absolute() / "bin" / "python"
+MARP_CLI = (
+    "npm",
+    "exec",
+    "--prefer-offline",
+    "--yes",
+    "--",
+    "@marp-team/marp-cli@latest",
+    "--html",
+    "--allow-local-files",
+)
 PYTHON_VERSION = "3.12"
+SITE = Path("_site")
+VIRTUAL_ENVIRONMENT = ".venv"
+
+PYTHON = Path(VIRTUAL_ENVIRONMENT).absolute() / "bin" / "python"
+
 
 nox.options.sessions = (
     "reuse",
@@ -28,14 +41,8 @@ def reuse(session) -> None:
 def html(session) -> None:
     """Render as index.html"""
     session.run(
-        "npm",
-        "exec",
-        "--prefer-offline",
-        "--yes",
-        "--",
-        "@marp-team/marp-cli@latest",
-        "--html",
-        "--allow-local-files",
+        *MARP_CLI,
+        f"--output={SITE}/index.html",
         "index.md",
     )
 
@@ -44,16 +51,10 @@ def html(session) -> None:
 def pdf(session) -> None:
     """Render as index.pdf"""
     session.run(
-        "npm",
-        "exec",
-        "--prefer-offline",
-        "--yes",
-        "--",
-        "@marp-team/marp-cli@latest",
-        "--html",
+        *MARP_CLI,
         "--pdf",
-        "--allow-local-files",
         "--theme=a4.css",
+        f"--output={SITE}/index.pdf",
         "index.md",
     )
 

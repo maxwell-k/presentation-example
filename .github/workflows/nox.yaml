@@ -5,15 +5,27 @@
 name: Nox
 on: # yamllint disable-line rule:truthy
   push: { branches: [main] }
-  pull_request: { branches: [main] }
   workflow_dispatch:
-  schedule: [{ cron: "15 0 * * *" }]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
 
 jobs:
   main:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - uses: wntrblm/nox@2023.04.22
         with: { python-versions: "3.11" }
       - run: nox
+      - uses: actions/upload-pages-artifact@v2
+      - uses: actions/deploy-pages@v2
