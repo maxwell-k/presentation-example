@@ -23,7 +23,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: wntrblm/nox@2024.10.09
-        with: { python-versions: "3.11" }
+        with: { python-versions: "3.13" }
       - run: nox
       - uses: actions/upload-pages-artifact@v3
   deploy:
