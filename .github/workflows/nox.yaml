@@ -24,7 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: wntrblm/nox@2023.04.22
+      - uses: wntrblm/nox@2024.10.09
         with: { python-versions: "3.11" }
       - run: nox
       - uses: actions/upload-pages-artifact@v3
