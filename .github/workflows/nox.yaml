@@ -26,6 +26,7 @@ jobs:
       - run: nox
       - uses: actions/upload-pages-artifact@v3
   deploy:
+    if: ${{ github.ref == 'refs/heads/main' }}
     needs: main
     environment:
       name: github-pages
