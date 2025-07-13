@@ -35,3 +35,6 @@ jobs:
     steps:
       - uses: actions/deploy-pages@v4
         id: deployment
+  renovate-config-validator:
+    # yamllint disable-line rule:line-length
+    uses: maxwell-k/dotlocalslashbin/.github/workflows/renovate.yaml@cb60f00144f887cd482609b344ae8ed78feadeed # v0.0.19
