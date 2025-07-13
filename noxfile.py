@@ -1,9 +1,25 @@
+#!/usr/bin/env -S uv run
+"""Build steps for presentation-example."""
+# /// script
+# dependencies = [
+#   "black",
+#   "codespell",
+#   "mypy",
+#   "nox",
+#   "reuse",
+#   "ruff",
+#   "usort",
+#   "yamllint",
+# ]
+# requires-python = ">=3.13"
+# ///
+
 # SPDX-License-Identifier: MPL-2.0
 # SPDX-FileCopyrightText: 2023 Keith Maxwell
 from pathlib import Path
-from shutil import rmtree
 
 import nox
+from nox.sessions import Session
 
 MARP_CLI = (
     "npm",
@@ -15,31 +31,50 @@ MARP_CLI = (
     "--html",
     "--allow-local-files",
 )
-PYTHON_VERSION = "3.12"
 SITE = Path("_site")
-VIRTUAL_ENVIRONMENT = ".venv"
+VENV = ".venv"
+PYTHON = Path(VENV).absolute() / "bin" / "python"
 
-PYTHON = Path(VIRTUAL_ENVIRONMENT).absolute() / "bin" / "python"
-
-
-nox.options.sessions = (
-    "reuse",
-    "html",
-    "pdf",
-)
 nox.options.stop_on_first_error = True
+nox.options.default_venv_backend = "none"
 
 
 @nox.session()
-def reuse(session) -> None:
-    """Check this repository for compliance"""
-    session.install("reuse")
-    session.run("reuse", "lint")
+def dev(session: Session) -> None:
+    """Set up a virtual environment for noxfile.py."""
+    metadata = nox.project.load_toml(__file__)
+    session.run("uv", "venv", "--python", metadata["requires-python"], VENV)
+    env = {"VIRTUAL_ENV": VENV}
+    session.run("uv", "pip", "install", *metadata["dependencies"], env=env)
 
 
-@nox.session(python=False)
-def html(session) -> None:
-    """Render as index.html"""
+@nox.session(venv_backend="none", requires=["dev"])
+def static(session: Session) -> None:
+    """Run static analysis tools."""
+    session.run(
+        "npm",
+        "exec",
+        "pyright@1.1.403",
+        "--yes",
+        "--",
+        f"--pythonpath={PYTHON}",
+    )
+
+    def run(cmd: str) -> None:
+        session.run(PYTHON, "-m", *cmd.split())
+
+    run("reuse lint")
+    run("usort check src noxfile.py")
+    run("black --check .")
+    run("ruff check .")
+    run("codespell_lib")
+    run("mypy .")
+    run("yamllint --strict .github")
+
+
+@nox.session()
+def html(session: Session) -> None:
+    """Render as index.html."""
     session.run(
         *MARP_CLI,
         f"--output={SITE}/index.html",
@@ -47,9 +82,9 @@ def html(session) -> None:
     )
 
 
-@nox.session(python=False)
-def pdf(session) -> None:
-    """Render as index.pdf"""
+@nox.session()
+def pdf(session: Session) -> None:
+    """Render as index.pdf."""
     session.run(
         *MARP_CLI,
         "--pdf",
@@ -59,13 +94,14 @@ def pdf(session) -> None:
     )
 
 
-@nox.session(python=False)
-def serve(session) -> None:
-    """Serve at http://localhost:8080/"""
+@nox.session(default=False)
+def serve(session: Session) -> None:
+    """Serve at http://localhost:8080/."""
     session.run(
         "npm",
         "exec",
-        "--prefer-offline" "--yes",
+        "--prefer-offline",
+        "--yes",
         "--",
         "@marp-team/marp-cli@latest",
         "--html",
@@ -75,26 +111,5 @@ def serve(session) -> None:
     )
 
 
-@nox.session(python=False)
-def dev(session) -> None:
-    """Set up a virtual environment for noxfile.py"""
-    rmtree(VIRTUAL_ENVIRONMENT, ignore_errors=True)
-    session.run(
-        f"python{PYTHON_VERSION}",
-        "-m",
-        "venv",
-        "--upgrade-deps",
-        VIRTUAL_ENVIRONMENT,
-    )
-    session.run(
-        PYTHON,
-        "-m",
-        "pip",
-        "install",
-        "--use-pep517",
-        "black",
-        "flake8",
-        "nox",
-        "reorder-python-imports",
-        "reuse",
-    )
+if __name__ == "__main__":
+    nox.main()

@@ -21,10 +21,9 @@ jobs:
   main:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: wntrblm/nox@2025.05.01
-        with: { python-versions: "3.13" }
-      - run: nox
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+      - uses: astral-sh/setup-uv@bd01e18f51369d5a26f1651c3cb451d3417e3bba # v6
+      - run: ./noxfile.py
       - uses: actions/upload-pages-artifact@v3
   deploy:
     if: ${{ github.ref == 'refs/heads/main' }}
