@@ -1,0 +1,7 @@
+[codespell]
+skip = *.html
+
+# .codespellrc
+# SPDX-FileCopyrightText: 2025 Keith Maxwell <keith.maxwell@gmail.com>
+# SPDX-License-Identifier: CC0-1.0
+# vim: set filetype=dosini :
