@@ -3,6 +3,18 @@
   "extends": [
     "config:best-practices"
   ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "managerFilePatterns": [
+        "noxfile.py"
+      ],
+      "matchStrings": [
+        "\\\"(?<depName>.+?)@(?<currentValue>.+?)\\\""
+      ],
+      "datasourceTemplate": "npm"
+    }
+  ],
   "packageRules": [
     {
       "description": "Automerge upgrades to pyright",
