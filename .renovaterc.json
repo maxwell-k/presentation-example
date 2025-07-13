@@ -2,5 +2,14 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:best-practices"
+  ],
+  "packageRules": [
+    {
+      "description": "Automerge upgrades to pyright",
+      "matchDepNames": [
+        "pyright"
+      ],
+      "automerge": true
+    }
   ]
 }
