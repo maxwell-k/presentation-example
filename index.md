@@ -216,7 +216,7 @@ More colours
 
 - One,
 - Two and
-- Three all appear together wit the block heading
+- Three all appear together with the block heading
 
 </div data-marpit-fragment>
 
