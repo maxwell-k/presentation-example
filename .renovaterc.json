@@ -1,33 +1,23 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:best-practices"
-  ],
+  "extends": ["config:best-practices"],
   "customManagers": [
     {
       "customType": "regex",
-      "managerFilePatterns": [
-        "noxfile.py"
-      ],
-      "matchStrings": [
-        "\\\"(?<depName>.+?)@(?<currentValue>.+?)\\\""
-      ],
+      "managerFilePatterns": ["noxfile.py"],
+      "matchStrings": ["\\\"(?<depName>.+?)@(?<currentValue>.+?)\\\""],
       "datasourceTemplate": "npm"
     }
   ],
   "packageRules": [
     {
       "description": "Automerge upgrades to pyright",
-      "matchDepNames": [
-        "pyright"
-      ],
+      "matchDepNames": ["pyright"],
       "automerge": true
     },
     {
       "description": "Automerge upgrades to GitHub Actions",
-      "matchManagers": [
-        "github-actions"
-      ],
+      "matchManagers": ["github-actions"],
       "automerge": true
     }
   ]
