@@ -27,7 +27,7 @@ jobs:
       - uses: astral-sh/setup-uv@4959332f0f014c5280e7eac8b70c90cb574c9f9b # v6
       - run: ./noxfile.py
       # yamllint disable-line rule:line-length
-      - uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3
+      - uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b # v4
   deploy:
     if: ${{ github.ref == 'refs/heads/main' }}
     needs: main
