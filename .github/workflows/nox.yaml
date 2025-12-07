@@ -24,7 +24,7 @@ jobs:
       # yamllint disable-line rule:line-length
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       # yamllint disable-line rule:line-length
-      - uses: astral-sh/setup-uv@1e862dfacbd1d6d858c55d9b792c756523627244 # v7
+      - uses: astral-sh/setup-uv@ed21f2f24f8dd64503750218de024bcf64c7250a # v7
       - run: ./noxfile.py
       # yamllint disable-line rule:line-length
       - uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b # v4
