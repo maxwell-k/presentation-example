@@ -43,7 +43,7 @@ nox.options.default_venv_backend = "none"
 def dev(session: Session) -> None:
     """Set up a virtual environment for noxfile.py."""
     metadata = nox.project.load_toml(__file__)
-    session.run("uv", "venv", "--python", metadata["requires-python"], VENV)
+    session.run("uv", "venv", "--clear", "--python", metadata["requires-python"], VENV)
     env = {"VIRTUAL_ENV": VENV}
     session.run("uv", "pip", "install", *metadata["dependencies"], env=env)
 
