@@ -42,3 +42,12 @@ jobs:
   renovate-config-validator:
     # yamllint disable-line rule:line-length
     uses: maxwell-k/dotlocalslashbin/.github/workflows/renovate.yaml@4ace0219b0a7916820ad7aec29cb2895f0a7a7f7 # v0.0.25
+  zizmor:
+    runs-on: ubuntu-24.04
+    # https://github.com/zizmorcore/zizmor-action#permissions
+    permissions: { security-events: write }
+    steps:
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+        with: { persist-credentials: false }
+      # yamllint disable-line rule:line-length
+      - uses: zizmorcore/zizmor-action@e639db99335bc9038abc0e066dfcd72e23d26fb4 # v0.3.0
