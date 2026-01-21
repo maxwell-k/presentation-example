@@ -8,10 +8,7 @@ on: # yamllint disable-line rule:truthy
   pull_request: { branches: [main] }
   workflow_dispatch:
 
-permissions:
-  contents: read
-  pages: write
-  id-token: write
+permissions: {}
 
 concurrency:
   group: "pages"
@@ -38,6 +35,10 @@ jobs:
       # yamllint disable-line rule:line-length
       - uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4
         id: deployment
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
   renovate-config-validator:
     # yamllint disable-line rule:line-length
     uses: maxwell-k/dotlocalslashbin/.github/workflows/renovate.yaml@4ace0219b0a7916820ad7aec29cb2895f0a7a7f7 # v0.0.25
