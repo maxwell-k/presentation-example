@@ -11,13 +11,13 @@
   ],
   "packageRules": [
     {
-      "description": "Automerge upgrades to pyright",
-      "matchDepNames": ["pyright"],
-      "automerge": true
+      "automerge": true,
+      "description": "Automerge changes to .github/workflows/main.yaml",
+      "matchFileNames": [".github/workflows/main.yaml"]
     },
     {
-      "description": "Automerge upgrades to GitHub Actions",
-      "matchManagers": ["github-actions"],
+      "description": "Automerge upgrades to pyright",
+      "matchDepNames": ["pyright"],
       "automerge": true
     }
   ]
