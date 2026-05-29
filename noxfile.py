@@ -55,7 +55,7 @@ def static(session: Session) -> None:
     session.run(
         "npm",
         "exec",
-        "pyright@1.1.409",
+        "pyright@1.1.410",
         "--yes",
         "--",
         f"--pythonpath={PYTHON}",
