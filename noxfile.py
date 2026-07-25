@@ -16,7 +16,7 @@
 # ///
 
 # SPDX-License-Identifier: MPL-2.0
-# SPDX-FileCopyrightText: 2023 Keith Maxwell
+# Copyright 2023 Keith Maxwell
 from pathlib import Path
 
 import nox
